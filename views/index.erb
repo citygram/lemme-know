@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Lemme Know</title>
+</head>
+<body>
+<form action='/' method='GET'>
+  <input type='text' name='from' placeholder='from' value="<%= params['from'] %>"></input>
+  <input type='text' name='to' placeholder='to' value="<%= params['to'] %>"></input>
+  <input type='text' name='body' placeholder='body' value="<%= params['body'] %>"></input>
+  <input type='submit'>
+</form>
+
+<% @messages.each do |message| %>
+<ul>
+  <li>from: <%= message[:from] %></li>
+  <li>to: <%= message[:to] %></li>
+  <li>body: <%= message[:body] %></li>
+  <li>created_at: <%= message[:created_at] %></li>
+</ul>
+<% end %>
+</body>
+</html>
