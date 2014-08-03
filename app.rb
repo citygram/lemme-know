@@ -3,23 +3,26 @@ require 'sinatra'
 require './db'
 
 post '/messages' do
-  puts params
   DB[:messages].insert(
     from: params['From'],
     to: params['To'],
     body: params['Body'],
+    request: request.body.read,
     created_at: DateTime.now
   )
 
   200
 end
 
-get '/' do
-  @messages = DB[:messages].order(Sequel.desc(:created_at)).paginate(
-    params[:page] || 1,
-    params[:limit] || 100
-  )
+order = {
+  'asc' => Sequel.asc(:created_at),
+  'desc' => Sequel.desc(:created_at)
+}
 
+get '/' do
+  @messages = DB[:messages]
+
+  @messages = @messages.order(order[params['order'] || 'desc'])
   @messages = @messages.where(Sequel.ilike(:from, '%'+params['from']+'%')) if params['from']
   @messages = @messages.where(Sequel.ilike(:to, '%'+params['to']+'%')) if params['to']
   @messages = @messages.where(Sequel.ilike(:body, '%'+params['body']+'%')) if params['body']

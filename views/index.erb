@@ -2,22 +2,48 @@
 <html>
 <head>
   <title>Lemme Know</title>
+  <style type="text/css">
+    html {
+      font-family: sans-serif;
+    }
+  </style>
 </head>
 <body>
+<h2>Messages</h2>
+
 <form action='/' method='GET'>
-  <input type='text' name='from' placeholder='from' value="<%= params['from'] %>"></input>
-  <input type='text' name='to' placeholder='to' value="<%= params['to'] %>"></input>
-  <input type='text' name='body' placeholder='body' value="<%= params['body'] %>"></input>
+  <input type='text' name='from' placeholder='from' value="<%= params['from'] %>">
+  <input type='text' name='to' placeholder='to' value="<%= params['to'] %>">
+  <input type='text' name='body' placeholder='body' value="<%= params['body'] %>">
+  <select name='order'>
+    <option value='asc'>asc</option>
+    <option value='desc' selected='true'>desc</option>
+  </select>
   <input type='submit'>
 </form>
 
-<% @messages.each do |message| %>
-<ul>
-  <li>from: <%= message[:from] %></li>
-  <li>to: <%= message[:to] %></li>
-  <li>body: <%= message[:body] %></li>
-  <li>created_at: <%= message[:created_at] %></li>
-</ul>
-<% end %>
+<table cellpadding="5px">
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>from</th>
+      <th>to</th>
+      <th>body</th>
+      <th>created_at</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @messages.each do |message| %>
+    <tr>
+      <td><%= message[:id] %></td>
+      <td><%= message[:from] %></td>
+      <td><%= message[:to] %></td>
+      <td><%= message[:body] %></td>
+      <td><%= message[:created_at] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
 </body>
 </html>
