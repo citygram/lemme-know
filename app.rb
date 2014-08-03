@@ -2,6 +2,11 @@ require 'dotenv';Dotenv.load
 require 'sinatra'
 require './db'
 
+configure :production do
+  require 'rack/ssl'
+  use Rack::SSL
+end
+
 post '/messages' do
   DB[:messages].insert(
     from: params['From'],
